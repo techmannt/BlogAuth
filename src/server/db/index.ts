@@ -17,8 +17,12 @@ export const Query = <T=any>(query: string, values?: Array<any>) => {
 
 import blogCrud from './queries/blogCrud';
 import findTags from './queries/tags';
+import users from './queries/users';
+import tokens from './queries/tokens';
 
 export default {
   blogCrud,
-  findTags
+  findTags,
+	users,
+	tokens
 }
