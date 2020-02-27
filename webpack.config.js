@@ -2,7 +2,7 @@ const path = require('path');
 var nodeExternals = require('webpack-node-externals');
 
 const serverConfig = {
-    mode: 'development',
+    mode: process.env.NODE_ENV || 'development',
     entry: './src/server/server.ts',
     module: {
         rules: [
@@ -31,7 +31,7 @@ const serverConfig = {
 };
 
 const clientConfig = {
-    mode: 'development',
+    mode: process.env.NODE_ENV || 'development',
     entry: './src/client/index.tsx',
     devtool: 'inline-source-map',
     module: {
