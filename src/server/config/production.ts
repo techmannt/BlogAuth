@@ -7,5 +7,8 @@ export default {
     },
     jwt: {
         secret: process.env.JWT_SECRET
+    },
+    api: {
+        secretkey: process.env.SECRET_KEY
     }
 }

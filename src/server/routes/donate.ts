@@ -1,9 +1,9 @@
 import * as express from 'express';
-import { secretkey } from '../config/';
+import config from '../config/';
 import Stripe from 'stripe';
 const router = express.Router();
 
-const stripe = new Stripe(secretkey, {
+const stripe = new Stripe(config.api.secretkey, {
   apiVersion: '2019-12-03',
 });
 
