@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Home from './pages/home';
+import Home from './pages/Home';
 import Edit from './pages/Edit';
 import DisplayBlog from './pages/DisplayBlog';
 import Donate from './pages/Donate';
