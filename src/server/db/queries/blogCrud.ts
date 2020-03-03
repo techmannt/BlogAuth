@@ -1,11 +1,11 @@
 import { Query } from '../index';
 import { TBlogs } from '../models/blogs';
 
-const findAllBlogPosts = () => Query("SELECT blogs.*, authors.name, CASE WHEN tags.name IS NULL THEN 'none' ELSE GROUP_CONCAT(tags.name SEPARATOR ';;') END AS tags FROM blogs JOIN authors ON authors.id = blogs.authorid LEFT JOIN blogtags ON blogtags.blogid = blogs.id LEFT JOIN tags ON tags.id = blogtags.tagid WHERE authors.id = 1 GROUP BY blogs.id");
-const findBlogEntry = (id: string) => Query<TBlogs[]>("SELECT blogs.*, authors.name, CASE WHEN tags.name IS NULL THEN 'none' ELSE GROUP_CONCAT(tags.name SEPARATOR ';;') END AS tags FROM blogs JOIN authors ON authors.id = blogs.authorid LEFT JOIN blogtags ON blogtags.blogid = blogs.id LEFT JOIN tags ON tags.id = blogtags.tagid WHERE authors.id = 1 AND blogs.id = ? GROUP BY blogs.id", [ id ]);
+const findAllBlogPosts = () => Query("SELECT blogs.*, authors.name, CASE WHEN tags.name IS NULL THEN 'none' ELSE GROUP_CONCAT(tags.name SEPARATOR ';;') END AS tags FROM blogs JOIN authors ON authors.id = blogs.authorid LEFT JOIN blogtags ON blogtags.blogid = blogs.id LEFT JOIN tags ON tags.id = blogtags.tagid GROUP BY blogs.id");
+const findBlogEntry = (id: string) => Query<TBlogs[]>("SELECT blogs.*, authors.name, CASE WHEN tags.name IS NULL THEN 'none' ELSE GROUP_CONCAT(tags.name SEPARATOR ';;') END AS tags FROM blogs JOIN authors ON authors.id = blogs.authorid LEFT JOIN blogtags ON blogtags.blogid = blogs.id LEFT JOIN tags ON tags.id = blogtags.tagid WHERE blogs.id = ? GROUP BY blogs.id", [ id ]);
 
-const addOne = (title: string, content: string) =>
-  Query("INSERT INTO blogs (title, content, authorid) VALUES (?)", [[title, content, 1]]);
+const addOne = (title: string, content: string, authorid: number) =>
+  Query("INSERT INTO blogs (title, content, authorid) VALUES (?)", [[title, content, authorid]]);
 const addBlogTag = (blogId: string, tagId: string) =>
   Query("INSERT INTO blogtags (blogid, tagid) VALUES (?)", [[blogId, tagId]]);
 

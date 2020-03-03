@@ -1,6 +1,6 @@
 import { Token, api } from './api';
 
-export const shouldIStayOrShouldIGoNow = async () => {
+export const redirectForLoginOrStayHere = async () => {
 	if (Token) {
 		let result = await api('/auth/tokens/validate');
 		if (result?.msg === 'loggedIn') {

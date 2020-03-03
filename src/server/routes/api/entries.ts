@@ -1,5 +1,7 @@
 import * as express from 'express';
-import db from '../db';
+import db from '../../db';
+import { isGuest } from '../../middlewares/auth-checkpoints';
+import { Request } from "express";
 
 const router = express.Router();
 
@@ -24,12 +26,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', isGuest, async (req:ReqUser, res) => {
   let tagId = req.body.tag;
   let title = req.body.title;
   let message = req.body.message;
   try {
-    let result = await db.blogCrud.addOne(title, message);
+    let result = await db.blogCrud.addOne(title, message, req.user.id);
     await db.blogCrud.addBlogTag(result.insertId, tagId);
     res.json(result);
   } catch (error) {
@@ -39,7 +41,7 @@ router.post('/', async (req, res) => {
 
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', isGuest, async (req, res) => {
   let blogId = req.body.blogId;
   let title = req.body.title;
   let message = req.body.content;
@@ -52,7 +54,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isGuest, async (req, res) => {
   const blogId = req.params.id;
   try {
     await db.blogCrud.destroy(blogId);
@@ -65,3 +67,10 @@ router.delete('/:id', async (req, res) => {
 });
 
 export default router;
+
+interface ReqUser extends Request {
+	user: {
+		id: number;
+		role: string;
+	};
+}

@@ -5,7 +5,7 @@ export const isGuest: RequestHandler = (req: ReqUser, res, next) => {
     if (req.user && req.user.role === 'guest') {
         return next();
     } else {
-        return res.status(401).json({ msg: 'Invalid login attempt.' });
+        return res.status(401).json({ msg: 'Unauthorized.' });
     }
 }
 

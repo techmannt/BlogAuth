@@ -9,7 +9,7 @@ router.post('/', async (req: ReqUser, res) => {
     try {
         let hashedPass = generateHash(req.body.password);
         let role = 'guest';
-        let result = await db.users.addUser(req.body.email, hashedPass);
+        let result = await db.users.addUser(req.body.username, req.body.email, hashedPass);
         let userid = result.insertId;
         let token = await createToken({ userid, role });
         res.json({ token, userid, role });
@@ -23,6 +23,7 @@ interface ReqUser extends Request {
     user: {
         id: number;
         role: string;
+        name: string;
         email: string;
         password: string;
     };

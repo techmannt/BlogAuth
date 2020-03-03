@@ -1,5 +1,5 @@
 import * as express from 'express';
-import config from '../config/';
+import config from '../../config';
 import Stripe from 'stripe';
 const router = express.Router();
 

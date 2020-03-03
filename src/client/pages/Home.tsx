@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 var moment = require('moment');
 
 class Home extends React.Component<IHomeProps, IHomeState> {
@@ -18,6 +17,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   }
 
   async componentDidMount() {
+
     let tagData = await fetch(`/api/tags`);
     let tagInfo = await tagData.json();
 
@@ -28,6 +28,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
       blogInfo,
       tags: tagInfo
     });
+
   }
 
   async handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
@@ -69,13 +70,23 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   render() {
     if (this.state.loaded) {
       return (
-        <main className="container py-5">
-          <Link className="btn btn-primary" to={`/donate`}>Donate!</Link>
+        <main className="container">
+          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="collapse navbar-collapse" id="nav-alt">
+              <div className="navbar-nav ml-auto">
+                <Link className="btn btn-primary mx-1" to={`/profile`}>Your Profile</Link>
+                <Link className="btn btn-primary mx-1" to={`/addentry`}>Add A Blog</Link>
+                <Link className="btn btn-primary mx-1" to={`/donate`}>Donate!</Link>
+                <Link className="btn btn-primary mx-1" to={`/login`}>Login/Register</Link>
+              </div>
+            </div>
+          </nav>
+
           <div className="row">
             {this.state.blogInfo.map(entry => (
               <div className="col-md-4" key={entry.id}>
                 <div className="card">
-                  <img src="https://i.ibb.co/rG6jhns/starwars.jpg" alt="theme"></img>
+                  <img src="https://i.ibb.co/rG6jhns/starwars.jpg" alt="theme" width="100%" height="auto"></img>
                   <div className="card-body">
                     <h5 className="card-title">{entry.title}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{moment(entry.created).format("MMM. DD, YYYY")}</h6>
@@ -87,31 +98,22 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                 </div>
               </div>
             ))}
-
-            <form className="col-12 form-group p-3 shadow">
-              <input className="form-control shadow" type="text" name="title" value={this.state.title} onChange={(event) => this.handleBlogTitleChange(event)} placeholder="Enter title" />
-              <textarea rows={10} className="form-control shadow" name="message" value={this.state.message} onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => this.handleBlogMessageChange(event)} placeholder="Enter blog post" />
-
-              <ReactMarkdown source={this.state.message} />
-
-              <label>Tag:</label>
-              <select
-                value={this.state.tag}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.setState({ tag: e.target.value })}
-                className="form-control">
-                <option value="0">Select...</option>
-                {this.state.tags.map(tag => (
-                  <option key={tag.id} value={tag.id}>{tag.name}</option>
-                ))}
-              </select>
-
-              <button className="btn btn-primary" onClick={(e: React.MouseEvent<HTMLButtonElement>) => this.handleAdd(e)}>Submit it!</button>
-            </form>
           </div>
         </main>
       );
     } else {
-      return <h6>Please wait!</h6>;
+      return (
+        <main className="container">
+          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="collapse navbar-collapse" id="nav-alt">
+              <div className="navbar-nav ml-auto">
+                <Link className="btn btn-primary mx-1" to={`/profile`}>Your Profile</Link>
+                <Link className="btn btn-primary mx-1" to={`/addentry`}>Add A Blog</Link>
+                <Link className="btn btn-primary mx-1" to={`/donate`}>Donate!</Link>
+                <Link className="btn btn-primary mx-1" to={`/login`}>Login/Register</Link>
+              </div></div></nav>
+        </main>
+      );
     }
   }
 }
